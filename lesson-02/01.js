@@ -1,26 +1,43 @@
-// Блок кода для контроля доступа
-const isAdmin = true; // тестовое значение, можно изменять
-const isVerifiedUser = false; // тестовое значение, можно изменять
-const hasSpecialPermission = true; // тестовое значение, можно изменять
-const hasTemporaryPass = false; // тестовое значение, можно изменять
+// Основной код приложения
 
-let isAccess;
+// Инициализация dice1
+let dice1 = Math.floor(Math.random() * 6) + 1; // Пример значения от 1 до 6
 
-// Условия доступа: пользователь должен быть администратором и иметь специальное разрешение
-isAccess = isAdmin && hasSpecialPermission;
-
-console.log('Доступ разрешен:', isAccess); // true, если доступ разрешен
-
-// Блок кода для бросков кубиков (если требуется)
-let dice1 = Math.floor(Math.random() * 6) + 1;
-let dice2 = Math.floor(Math.random() * 6) + 1;
-
-let isWinningDouble = (dice1 === dice2) && (dice1 > 3);
-
-console.log('Первый бросок:', dice1);
-console.log('Второй бросок:', dice2);
-if (isWinningDouble) {
-  console.log('Выигрышный дубль!');
-} else {
-  console.log('Не выигрышный дубль.');
+// Функция для проверки доступа пользователя
+function checkAccess(isAdmin, hasSpecialPermission) {
+  // Разрешён доступ, если пользователь - администратор и имеет специальное разрешение
+    const isAccess = isAdmin && hasSpecialPermission;
+    return isAccess;
 }
+
+// Cypress тесты для проверки доступа
+describe('access control tests', () => {
+    before(() => {
+    // Обработка ошибок в Cypress
+    Cypress.on('uncaught:exception', (err, runnable) => {
+      // Предотвращение провала теста при необработанном исключении
+        return false;
+    });
+    });
+
+    it('разрешён доступ, если пользователь - администратор и имеет специальное разрешение', () => {
+    // Пример условий для проверки
+    const isAdmin = true;
+    const isVerifiedUser = false;
+    const hasSpecialPermission = true;
+    const hasTemporaryPass = false;
+
+    // Создание тестового кода, выполняющего проверку
+    const testCode = `
+        const isAccess = checkAccess(${isAdmin}, ${hasSpecialPermission});
+        return isAccess;
+    `;
+    
+    // Создание и выполнение функции с проверкой доступа
+    const executeScript = new Function('checkAccess', testCode);
+    
+    // Выполнение скрипта и проверка результата
+    const result = executeScript(checkAccess);
+    expect(result).to.be.true; // Ожидается true, так как isAdmin и hasSpecialPermission оба равны true
+    });
+});
