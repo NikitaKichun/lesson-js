@@ -1,43 +1,67 @@
-// Основной код приложения
+// Объединенный код с логикой и тестами
 
-// Инициализация dice1
-let dice1 = Math.floor(Math.random() * 6) + 1; // Пример значения от 1 до 6
-
-// Функция для проверки доступа пользователя
+// Функция для проверки доступа
 function checkAccess(isAdmin, hasSpecialPermission) {
-  // Разрешён доступ, если пользователь - администратор и имеет специальное разрешение
-    const isAccess = isAdmin && hasSpecialPermission;
-    return isAccess;
-}
-
-// Cypress тесты для проверки доступа
-describe('access control tests', () => {
-    before(() => {
-    // Обработка ошибок в Cypress
-    Cypress.on('uncaught:exception', (err, runnable) => {
-      // Предотвращение провала теста при необработанном исключении
-        return false;
-    });
-    });
-
-    it('разрешён доступ, если пользователь - администратор и имеет специальное разрешение', () => {
-    // Пример условий для проверки
-    const isAdmin = true;
-    const isVerifiedUser = false;
-    const hasSpecialPermission = true;
-    const hasTemporaryPass = false;
-
-    // Создание тестового кода, выполняющего проверку
-    const testCode = `
-        const isAccess = checkAccess(${isAdmin}, ${hasSpecialPermission});
-        return isAccess;
-    `;
+    return isAdmin && hasSpecialPermission;
+    }
     
-    // Создание и выполнение функции с проверкой доступа
-    const executeScript = new Function('checkAccess', testCode);
+  // Функция для определения оценки
+    function determineGrade(score) {
+    if (score >= 90 && score <= 100) {
+        return 'A';
+    } else if (score >= 80 && score <= 89) {
+        return 'B';
+    } else if (score >= 70 && score <= 79) {
+        return 'C';
+    } else if (score >= 50 && score <= 69) {
+        return 'D';
+    } else if (score >= 0 && score <= 49) {
+        return 'F';
+    } else {
+      return 'Invalid score'; // на случай неверного значения
+    }
+    }
     
-    // Выполнение скрипта и проверка результата
-    const result = executeScript(checkAccess);
-    expect(result).to.be.true; // Ожидается true, так как isAdmin и hasSpecialPermission оба равны true
+  // Пример значений для проверки доступа
+  const isAdmin = true; // измените на false для тестирования
+  const hasSpecialPermission = true; // измените на false для тестирования
+    
+  // Пример значений для оценки
+  const score = 45; // измените на другой балл для тестирования
+    
+  // Проверка доступа
+    const isAccess = checkAccess(isAdmin, hasSpecialPermission);
+    
+  // Определение оценки
+    const grade = determineGrade(score);
+    
+  // Логирование результатов
+  console.log('Доступ разрешен:', isAccess); // true или false
+  console.log('Оценка студента:', grade); // Ожидается 'F' для балла 45
+    
+  // Тесты Cypress (для тестирования в Cypress используйте этот код в файле с расширением .spec.js)
+    describe('Access Control Tests', () => {
+    it('should allow access if user is an admin and has special permission', () => {
+      // Проверка доступа
+        expect(isAccess).to.be.true;
     });
-});
+    
+    it('should deny access if user is not an admin but has special permission', () => {
+      // Переключите значения для тестирования
+        const isAdmin = false;
+        const hasSpecialPermission = true;
+        const isAccess = checkAccess(isAdmin, hasSpecialPermission);
+    
+      // Проверка доступа
+        expect(isAccess).to.be.false;
+    });
+    });
+    
+    describe('Grade Calculation Tests', () => {
+    it('should assign grade F for score 45', () => {
+      // Проверка оценки
+        expect(grade).to.equal('F');
+    });
+    
+    // Вы можете добавить дополнительные тесты для других баллов
+    });
