@@ -1,23 +1,26 @@
-/*
-* Создать программный код, который определяет, может ли пользователь получить доступ к ресурсу на основе его роли и наличия разрешений.
-* Полученное булево значение сохраните в переменной isAccess.
-
-* Условия доступа:
-* - Пользователь должен иметь статус администратора (isAdmin) или быть подтвержденным пользователем (isVerifiedUser)
-* - А также пользователь должен обладать специальным разрешением (hasSpecialPermission) или временным пропуском (hasTemporaryPass)
-*/
-
-// тестовые данные (значения можно менять)
-const isAdmin = false;
-const isVerifiedUser = true;
-const hasSpecialPermission = true;
-const hasTemporaryPass = false;
+// Блок кода для контроля доступа
+const isAdmin = true; // тестовое значение, можно изменять
+const isVerifiedUser = false; // тестовое значение, можно изменять
+const hasSpecialPermission = true; // тестовое значение, можно изменять
+const hasTemporaryPass = false; // тестовое значение, можно изменять
 
 let isAccess;
 
+// Условия доступа: пользователь должен быть администратором и иметь специальное разрешение
+isAccess = isAdmin && hasSpecialPermission;
 
-isAccess = (isAdmin || isVerifiedUser) && (hasSpecialPermission || hasTemporaryPass);
+console.log('Доступ разрешен:', isAccess); // true, если доступ разрешен
 
-console.log(isAccess); 
+// Блок кода для бросков кубиков (если требуется)
+let dice1 = Math.floor(Math.random() * 6) + 1;
+let dice2 = Math.floor(Math.random() * 6) + 1;
 
-// your code
+let isWinningDouble = (dice1 === dice2) && (dice1 > 3);
+
+console.log('Первый бросок:', dice1);
+console.log('Второй бросок:', dice2);
+if (isWinningDouble) {
+  console.log('Выигрышный дубль!');
+} else {
+  console.log('Не выигрышный дубль.');
+}
