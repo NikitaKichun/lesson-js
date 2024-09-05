@@ -13,7 +13,7 @@ const isVerifiedUser = true;
 const hasSpecialPermission = true;
 const hasTemporaryPass = false;
 
-let isAccess;
+let isAccess = true;
 
 // проверка условий доступа
 isAccess = (isAdmin || isVerifiedUser) && (hasSpecialPermission || hasTemporaryPass);
